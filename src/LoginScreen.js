@@ -1,27 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator, Platform } from 'react-native';
 
-// import Firebase from './FirebaseConfig';
+import Firebase from './FirebaseConfig';
 
 export default function LoginScreen({navigation}) {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  let [isLoading, setIsLoading] = useState(false)
+
   
  
   const login = () => {
+    setIsLoading = true;
     if(username == null || username == '' || password == null || password == ''){
+      setIsLoading = false;
       Alert.alert(
         "Missing information",
         "Please fill in all fields!"
       )  
     }else {
       Firebase.auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => navigation.navigate("Parking"))
-        .catch(error => console.log(error))
+        .signInWithEmailAndPassword(username, password)
+        .then(() => navigation.replace("Parking"))
+        .catch((error) => {
+          setIsLoading = false;
+          let err = "" + error + "";
+          console.log(err);
+          Alert.alert(
+            "Error:",
+            error.message
+          )
+        })
     }
   }
 
@@ -56,7 +68,12 @@ export default function LoginScreen({navigation}) {
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
           <Text style={styles.registerText}>Don't have an account? Register now.</Text>
         </TouchableOpacity>
+        
       </View>
+      {isLoading == true ?
+        <View style={styles.AILoading}>
+          <ActivityIndicator size="large" color={Platform.OS === 'ios' ? "grey" : "#00a800"} />
+        </View> : null}
 
 
     </View>
@@ -88,5 +105,13 @@ const styles = StyleSheet.create({
   registerText: {
     color: "#afafaf",
     fontSize: 15,
+  },
+  AILoading: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.5)"
   }
 });
