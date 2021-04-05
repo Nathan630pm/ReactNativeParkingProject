@@ -3,18 +3,27 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator, Platform } from 'react-native';
 
 import Firebase from './FirebaseConfig';
+import 'firebase/firestore';
 
-export default function LoginScreen({navigation}) {
+import {Database} from './Database'
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+export default function LoginScreen({navigation, route}) {
 
-  let [isLoading, setIsLoading] = useState(false)
+  Database.createTable();
+  Database.deleteAll();
+  Database.initializeData();
+  Database.getAllData()
+
+  const [username, setUsername] = useState('Nathan630pm@outlook.com')
+  const [password, setPassword] = useState('Nat1212')
+
+  const [isLoading, setIsLoading] = useState(false)
 
   
  
   const login = () => {
-    setIsLoading = true;
+    setUsername(username.replace(/\s/g, ''))
+    setIsLoading(true);
     if(username == null || username == '' || password == null || password == ''){
       setIsLoading = false;
       Alert.alert(
@@ -24,17 +33,53 @@ export default function LoginScreen({navigation}) {
     }else {
       Firebase.auth()
         .signInWithEmailAndPassword(username, password)
-        .then(() => navigation.replace("Parking"))
+        .then(() => {
+          const userEmail = username
+
+          continueLogin(username.toLowerCase())
+
+          
+        })
         .catch((error) => {
-          setIsLoading = false;
           let err = "" + error + "";
           console.log(err);
           Alert.alert(
             "Error:",
             error.message
           )
+          setIsLoading(false);
         })
     }
+  }
+
+  const continueLogin = (username) => {
+    console.log(username);
+    Firebase.firestore()
+      .collection("Parking")
+      .where("email", "==", username)
+      .get()
+      .then((querySnapshot) => {
+        console.log("running");
+        querySnapshot.forEach((doc) => {
+          
+          console.log(doc.id, "=>", JSON.stringify(doc.data()));
+          const userData = {
+            name: doc.data().name,
+            email: doc.data().email,
+            carPlateNumber: doc.data().carPlateNumber,
+            contactNumber: doc.data().contactNumber
+          }
+
+          Database.updateData(userData)
+          Database.getAllData()
+
+          // navigation.replace("Parking", {screen: "View Parking", params: {navigation: navigation}})
+          // setIsLoading(false)
+        })
+      })
+      .catch((error) => {
+        console.log("ewwor:", error);
+      });
   }
 
   return (

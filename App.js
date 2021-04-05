@@ -28,7 +28,9 @@ export default function App() {
 
   return (
     <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName="Login" 
+      >
 
         <Stack.Screen 
           name="Login" component={LoginScreen}
@@ -37,10 +39,12 @@ export default function App() {
 
         <Stack.Screen 
           name="Register" component={RegisterScreen}
+          options={ ({navigation}) => {}}
         />
 
         <Stack.Screen 
           name="Parking" component={MainTabs}
+          options={ ({navigation}) => {}, ({route}) => ({})}
         />
 
       </Stack.Navigator>
