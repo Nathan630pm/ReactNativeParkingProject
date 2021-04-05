@@ -38,12 +38,12 @@ const initializeData = () => {
   })
 }
 
-const getData = (setUser) => {
+const getData = (setData) => {
   db.transaction(tx => {
     tx.executeSql(
       'select * from user WHERE id = 1',
       null,
-      (_, {rows: {_array}}) => setUser(_array),
+      (_, {rows: {_array}}) => {setData(_array)},
       (_, error) => {
          console.log(error)
       }

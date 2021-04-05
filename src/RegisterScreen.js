@@ -22,7 +22,13 @@ export default function RegisterScreen({navigation}) {
   let [isLoading, setIsLoading] = useState(false);
 
   const continueRegister = () => {
-    
+    Alert.alert(
+      "Success!",
+      "You've successfully registered. You may now log in.",
+      [
+        {text: 'OK', onPress: navigation.goBack()},
+      ]
+    )
   }
 
   
@@ -56,7 +62,13 @@ export default function RegisterScreen({navigation}) {
           })
           .then((docRef) => {
               console.log("Document written with ID: ", docRef.id);
-              navigation.reset({index: 0,routes: [{ name: 'Parking' }],})
+              Alert.alert(
+                "Success!",
+                "You've successfully registered. You may now log in.",
+                [
+                  {text: 'OK', onPress: navigation.goBack()},
+                ]
+              )
           })
           .catch((error) => {
               console.error("Error adding document: ", error);
@@ -149,7 +161,7 @@ export default function RegisterScreen({navigation}) {
 
         <View style={styles.addFriend}>
         <TouchableOpacity onPress={login}>
-          <Text style={styles.button}>Login</Text>
+          <Text style={styles.button}>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.registerText}>Already have an account? Login.</Text>

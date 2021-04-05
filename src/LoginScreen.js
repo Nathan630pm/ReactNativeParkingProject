@@ -73,8 +73,8 @@ export default function LoginScreen({navigation, route}) {
           Database.updateData(userData)
           Database.getAllData()
 
-          // navigation.replace("Parking", {screen: "View Parking", params: {navigation: navigation}})
-          // setIsLoading(false)
+          navigation.replace("Parking", {screen: "View Parking", params: {navigation: navigation}})
+          setIsLoading(false)
         })
       })
       .catch((error) => {
