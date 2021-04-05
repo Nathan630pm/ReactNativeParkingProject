@@ -95,11 +95,16 @@ export default function ViewParkingScreen({route, navigation}) {
     return(
       <Item 
         item={item}
-        onPress={() => console.log("Item Pressed")}
+        onPress={() => onItemPressed(item)}
       />
     )
   }
 
+
+  const onItemPressed = (item) => {
+    console.log("Item", item.id, "pressed.");
+    navigation.navigate("Parking Detials", {item: item})
+  }
 
 
   return (

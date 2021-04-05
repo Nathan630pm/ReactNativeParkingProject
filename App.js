@@ -8,6 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MainTabs from './src/MainTabs'
 import LoginScreen from './src/LoginScreen'
 import RegisterScreen from './src/RegisterScreen'
+import ParkingDetails from './src/ParkingDetailsScreen'
+import ParkingMap from './src/MapScreen'
 
 const Stack = createStackNavigator();
 
@@ -44,6 +46,16 @@ export default function App() {
 
         <Stack.Screen 
           name="Parking" component={MainTabs}
+          options={ ({navigation}) => {}, ({route}) => ({})}
+        />
+
+        <Stack.Screen 
+          name="Parking Detials" component={ParkingDetails}
+          options={ ({navigation}) => {}, ({route}) => ({})}
+        />
+
+        <Stack.Screen 
+          name="Parking Map" component={ParkingMap}
           options={ ({navigation}) => {}, ({route}) => ({})}
         />
 
