@@ -48,6 +48,22 @@ const getData = (setData) => {
          console.log(error)
       }
     )
+    
+  })
+  
+}
+
+
+const getData1 = (setData) => {
+  db.transaction(tx => {
+    tx.executeSql(
+      'select * from user WHERE id = 1',
+      [],
+      (_, {rows: {_array}}) => {setData(_array), console.log("awway:", _array)},
+      (_, error) => {
+         console.log(error)
+      }
+    )
   })
 }
 
@@ -56,7 +72,7 @@ const getAllData = () => {
     tx.executeSql(
       'select * from user WHERE id = 1',
       null,
-      (_, {rows: {_array}}) => console.log(_array),
+      (_, {rows: {_array}}) => {},
       (_, error) => {
          console.log(error)
       }
@@ -100,12 +116,14 @@ const deleteAll = () => {
 }
 
 export const Database = {
+  db,
   createTable,
   insertData,
   initializeData,
   getData,
+  getData1,
   getAllData,
   updateData,
   deleteData,
-  deleteAll
+  deleteAll,
 }

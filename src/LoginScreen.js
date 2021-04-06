@@ -73,7 +73,7 @@ export default function LoginScreen({navigation, route}) {
           Database.updateData(userData)
           Database.getAllData()
 
-          navigation.replace("Parking", {screen: "View Parking", params: {navigation: navigation}})
+          navigation.replace("Parking", {test: "test"})
           setIsLoading(false)
         })
       })
@@ -118,6 +118,7 @@ export default function LoginScreen({navigation, route}) {
       {isLoading == true ?
         <View style={styles.AILoading}>
           <ActivityIndicator size="large" color={Platform.OS === 'ios' ? "grey" : "#00a800"} />
+          <Text style={{color: "#afafaf"}}>Loading...</Text>
         </View> : null}
 
 

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, LogBox } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -9,17 +9,38 @@ import AddParkingScreen from './AddParkingScreen';
 import ProfileScreen from './ProfileScreen';
 import ViewParkingScreen from './ViewParkingScreen';
 
+import {Database} from './Database'
+
 
 const Tab = createBottomTabNavigator();
 
 
- LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 
 
 export default function MainTabs({navigation, route}) {
+
+
+const test = "test!"
+
+  const [data, setData] = useState([])
+
+  
+
+  useEffect(() => {
+  
+    (async () => {
+      
+      Database.getData(setData)
+  console.log("Data: ");
+  console.log(data);
+
+    })();
+  }, []);
+  
   return (
     <Tab.Navigator
         screenOptions={ ({route}) => ({
@@ -34,28 +55,32 @@ export default function MainTabs({navigation, route}) {
               iconName = focused ? 'person-circle' : 'person-circle-outline';
             }
             return <Ionicons name={iconName} size={size} color={color} />
-          }
+          },
+          params: {test: "test"}
+          
         })
+        
         }
         tabBarOptions={{
           activeTintColor: "blue",
           inactiveTintColor: "#AFAFAF",
-        }
-        }
+        }}
+        options={{test: "test"}}
         >
           <Tab.Screen 
             name="View Parking" 
-            component={ViewParkingScreen}
+            children={()=><ViewParkingScreen data={data}/>}
+            
           />
 
           <Tab.Screen 
             name="Add Parking" 
-            component={AddParkingScreen}
+            children={()=><AddParkingScreen data={data}/>}
           />
 
           <Tab.Screen 
             name="Profile" 
-            component={ProfileScreen}
+            children={()=><ProfileScreen data={data}/>}
           />
         </Tab.Navigator>
   );

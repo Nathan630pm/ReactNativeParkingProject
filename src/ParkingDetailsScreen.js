@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator, Platform, Dimensions, PermissionsAndroid, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator, Platform, Dimensions, PermissionsAndroid, ScrollView, SafeAreaView } from 'react-native';
 import MapView, {Marker, Polyline} from 'react-native-maps';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -31,11 +31,16 @@ export default function ParkingDetails({route, navigation}) {
     longitude: item.parkingLon,
   }
 
+  const viewDirections = () => {
+    console.log("viewing", item.id, "directions...");
+    navigation.navigate("Parking Map", {item: item})
+  }
+
   
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={{alignItems: 'center'}}>
         <ScrollView style={styles.parkingDetials}>
           <Text style={styles.parkingAddr}>Parking Address: {item.buildingCode}</Text>
@@ -52,11 +57,13 @@ export default function ParkingDetails({route, navigation}) {
         style={styles.map} 
         region={region}
         showsUserLocation={false}
+
         zoomEnabled={false}
         zoomTapEnabled={false}
         zoomControlEnabled={false}
         moveOnMarkerPress={false}
         scrollEnabled={false}
+        rotateEnabled={false}
         
         showsCompass={true}
         provider="google"
@@ -68,19 +75,21 @@ export default function ParkingDetails({route, navigation}) {
           description={item.parkingAddr}
           coordinate = {parkingLocation}
         />
+        
 
+        
         
 
         </MapView>
       </View>
 
       <View style={styles.mapViewButton}>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={viewDirections}>
           <Text style={styles.button}>View Directions</Text>
         </TouchableOpacity>
       </View>
       
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -134,9 +143,7 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '50%',
-    marginBottom: 1,
     flex: 1,
-    backgroundColor: "#111",
   },
   mapView: {
     height: deviceHeight/2,

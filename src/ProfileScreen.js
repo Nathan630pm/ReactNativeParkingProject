@@ -2,10 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator, Platform } from 'react-native';
 
-export default function ProfileScreen({route}) {
+import {Database} from './Database'
+
+export default function ProfileScreen({route, data}) {
+
+  // const {test} = route.params;
+  console.log(data);
+
 
   
-
 
   return (
     <View style={styles.container}>

@@ -10,21 +10,70 @@ import {Database} from './Database'
 const screenWidth = Dimensions.get('window').width
 const screenHeight = Dimensions.get('window').height
 
-export default function ViewParkingScreen({route, navigation}) {
+export default function ViewParkingScreen({route, navigation, data}) {
 
   
 
   const [isLoading, setIsLoading] = useState(true)
-  const [data, setData] = useState([])
+  // const [data, setData] = useState([])
+  
+  // setData(tabData)
   
   const [parking, setParking] = useState([])
 
   const [gotData, setGotData] = useState(false)
+  
+  const [isFetching, setIsFetching] = useState(false)
 
 
-  Database.getData(setData)
-  console.log("Data: ");
-  console.log(data);
+
+  useEffect(() => {
+  
+    (async () => {
+      
+      
+    })();
+  }, []);
+
+  const onRefresh = () => {
+    setIsFetching(true)
+    Firebase.firestore()
+      .collection("AddedParking")
+      .doc(data[0].email)
+      .collection("ParkingList")
+      .get()
+      .then((querySnapshot) => {
+        console.log("parking running");
+        let parkingData = []
+        querySnapshot.forEach((doc) => {
+          
+          console.log(doc.id, "=>", JSON.stringify(doc.data()));
+
+          
+
+          const newDoc = doc.data()
+          newDoc.id = doc.id
+          
+          parkingData.push(newDoc)
+
+          
+        })
+        
+        console.log("Parking Data: ");
+        setParking([])
+        setParking(parkingData)
+        setIsLoading(false)
+        setIsFetching(false)
+      })
+      .catch((error) => {
+        console.log("ewwor:", error);
+      });
+  }
+
+  
+
+
+  
   
 
   
@@ -70,7 +119,6 @@ export default function ViewParkingScreen({route, navigation}) {
 
 
   const Item = ({item, onPress}) => {
-    console.log("item:", item);
 
     var date = new Date(1970, 0, 1);
     var seconds = item.date.seconds
@@ -113,12 +161,15 @@ export default function ViewParkingScreen({route, navigation}) {
       {isLoading == true ?
         <View style={styles.AILoading}>
           <ActivityIndicator size="large" color={Platform.OS === 'ios' ? "grey" : "#00a800"} />
+          <Text style={{color: "#afafaf"}}>Loading Parking...</Text>
         </View> : 
         <FlatList
           style={styles.list}
           keyExtractor={(item, index) => {return item.id  + ""}}
           data={parking}
           renderItem={renderItem}
+          onRefresh={() => onRefresh()}
+          refreshing={isFetching}
         />}
     </View>
   );
