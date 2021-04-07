@@ -26,20 +26,22 @@ export default function MainTabs({navigation, route}) {
 
 const test = "test!"
 
-  const [data, setData] = useState([])
+  // const [data, setData] = useState([])
+
+  const {data} = route.params;
 
   
 
-  useEffect(() => {
+  // useEffect(() => {
   
-    (async () => {
+  //   (async () => {
       
-      Database.getData(setData)
-  console.log("Data: ");
-  console.log(data);
+  //     Database.getData(setData)
+  // console.log("Data: ");
+  // console.log(data);
 
-    })();
-  }, []);
+  //   })();
+  // }, []);
   
   return (
     <Tab.Navigator
