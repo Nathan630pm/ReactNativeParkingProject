@@ -200,6 +200,9 @@ useEffect(() => {
       setCoords({latitude: 0, longitude: 0})
     }
 
+    let addr = checked ? userLocation : location
+    let tempCoords = checked ? foundCoords : coords
+
     Firebase.firestore()
       .collection("AddedParking")
       .doc(data[0].email)
@@ -210,9 +213,9 @@ useEffect(() => {
         date: new Date(date),
         email: data[0].email,
         hoursSelection: time,
-        parkingAddr: location,
-        parkingLat: coords.latitude,
-        parkingLon: coords.longitude,
+        parkingAddr: addr,
+        parkingLat: tempCoords.latitude,
+        parkingLon: tempCoords.longitude,
         suitNo: suit,
 
       })
