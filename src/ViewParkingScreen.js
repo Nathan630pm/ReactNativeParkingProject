@@ -118,7 +118,7 @@ export default function ViewParkingScreen({route, navigation, data}) {
   }
 
 
-  const Item = ({item, onPress}) => {
+  const Item = ({item, onPress, onLongPress}) => {
 
     var date = new Date(1970, 0, 1);
     var seconds = item.date.seconds
@@ -126,6 +126,7 @@ export default function ViewParkingScreen({route, navigation, data}) {
     return(
       <TouchableOpacity
         onPress={onPress}
+        onLongPress={onLongPress}
       >
         <View style={styles.item}>
           <Text style={styles.parkingAddr}>Parking Address: {item.parkingAddr}</Text>
@@ -144,8 +145,52 @@ export default function ViewParkingScreen({route, navigation, data}) {
       <Item 
         item={item}
         onPress={() => onItemPressed(item)}
+        onLongPress={() => onItemLongPressed(item)}
       />
     )
+  }
+
+  const onItemLongPressed = (item) => {
+    console.log(item.id, "long pressed");
+
+    Alert.alert(
+      'Are you sure?',
+      'Are you sure you want to delete this parking? This action cannot be undone.',
+      [     
+        {       
+          text: 'Cancel',       
+          onPress: () => console.log('Cancel Pressed'),       
+          style: 'cancel',     
+        },     
+        {
+          text: 'OK', 
+          onPress: () => continueDelete(item)
+        },   
+      ],   
+      { cancelable: false }, 
+    );
+    
+
+  }
+
+  const continueDelete = (item) => {
+    Firebase.firestore()
+      .collection("AddedParking")
+      .doc(data[0].email)
+      .collection("ParkingList")
+      .doc(item.id)
+      .delete()
+      .then(() => {
+        console.log("document deleted successfully.")
+        Alert.alert(
+          "Success!",
+          "Parking was removed."
+        )
+        onRefresh()
+      })
+      .catch((error) => {
+        console.log("ewwor:", error);
+      });
   }
 
 

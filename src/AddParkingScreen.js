@@ -48,7 +48,7 @@ export default function AddParkingScreen({route, navigation, data}) {
   const today = new Date();
   // const [data, setData] = useState([])
 
-  const [date, setDate] = useState(new Date(day + "/" + month + "/" + year))
+  const [date, setDate] = useState(new Date())
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -318,7 +318,7 @@ useEffect(() => {
           date={date} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
-          format="DD/MM/YYYY"
+          format="YYYY/MM/DD"
           minDate={today}
           
           confirmBtnText="Confirm"
