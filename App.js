@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -46,7 +46,11 @@ export default function App() {
 
         <Stack.Screen 
           name="Parking" component={MainTabs}
-          options={ ({navigation}) => {}, ({route}) => ({})}
+          options={ ({route}) => ({}), ({navigation}) => ({headerRight: () => (
+          <TouchableOpacity style={styles.TouchableOpacity} onPress={() => navigation.replace('Login')}>
+            <Text style={styles.TOText}>Logout</Text>
+          </TouchableOpacity>
+        )})}
         />
 
         <Stack.Screen 
@@ -71,4 +75,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  TouchableOpacity: {
+    width: '100%',
+    padding: 10,
+    backgroundColor: "darkgreen",
+    color: 'white',
+    marginRight: 10,
+    margin: 2
+  },
+  TOText: {
+    fontSize: 10,
+    color: 'white',
+    textAlign: "center",
+  }
 });

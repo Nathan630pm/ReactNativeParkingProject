@@ -69,18 +69,18 @@ const test = "test!"
         >
           <Tab.Screen 
             name="View Parking" 
-            children={()=><ViewParkingScreen data={data}/>}
+            children={()=><ViewParkingScreen data={data} navigation={navigation}/>}
             
           />
 
           <Tab.Screen 
             name="Add Parking" 
-            children={()=><AddParkingScreen data={data}/>}
+            children={()=><AddParkingScreen data={data} navigation={navigation}/>}
           />
 
           <Tab.Screen 
             name="Profile" 
-            children={()=><ProfileScreen data={data}/>}
+            children={()=><ProfileScreen data={data} navigation={navigation}/>}
           />
         </Tab.Navigator>
   );

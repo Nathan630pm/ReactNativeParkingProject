@@ -128,7 +128,7 @@ export default function ViewParkingScreen({route, navigation, data}) {
         onPress={onPress}
       >
         <View style={styles.item}>
-          <Text style={styles.parkingAddr}>Parking Address: {item.buildingCode}</Text>
+          <Text style={styles.parkingAddr}>Parking Address: {item.parkingAddr}</Text>
           <Text style={styles.plateNo}>Car Plate Number: {item.carPlateNumber}</Text>
           <Text style={styles.parkingDate}>Parking Date: {JSON.stringify(date)}</Text>
           <Text style={styles.parkingInfo}>Tap to view parking details. Long Press to delete.</Text>

@@ -43,11 +43,11 @@ export default function ParkingDetails({route, navigation}) {
     <SafeAreaView style={styles.container}>
       <View style={{alignItems: 'center'}}>
         <ScrollView style={styles.parkingDetials}>
-          <Text style={styles.parkingAddr}>Parking Address: {item.buildingCode}</Text>
+          <Text style={styles.parkingAddr}>Parking Address: {item.parkingAddr}</Text>
           <Text style={styles.plateNo}>Car Plate Number: {item.carPlateNumber}</Text>
           <Text style={styles.parkingDate}>Parking Date: {JSON.stringify(Date(item.date.seconds))}</Text>
           <Text style={styles.parkingInfo}>Hours Selected: {hours[item.hoursSelection]}</Text>
-          <Text style={styles.parkingInfo}>Parking Address: {item.parkingAddr}</Text>
+          <Text style={styles.parkingInfo}>Building Code: {item.buildingCode}</Text>
           <Text style={styles.parkingInfo}>Parking Address Suit: {item.suitNo}</Text>
         </ScrollView>
       </View>
